@@ -1,0 +1,17 @@
+{
+    "name": "renanporto/login-php",
+    "description": "PHP login project",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "fakerphp/faker": "^1.12"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Renan Porto",
+            "email": "renan.porto1099@gmail.com"
+        }
+    ],
+    "require": {}
+}
