@@ -2,7 +2,7 @@
 
 PHP Login Project with clean architecture and tests
 
-## Dependencias
+## Dependencies
 
 - PHP version 8.0.0
 
