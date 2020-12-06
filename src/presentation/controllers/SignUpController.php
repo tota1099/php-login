@@ -3,8 +3,8 @@
 class SignUpController implements Controller {
 
   public function __construct(
-    EmailValidator $emailValidator,
-    AccountRepository $accountRepository
+    private EmailValidator $emailValidator,
+    private AccountRepository $accountRepository
   ){}
 
   public function handle(HttpRequest $httpRequest): HttpResponse
@@ -14,6 +14,11 @@ class SignUpController implements Controller {
       if(trim(empty($httpRequest->body[$fieldName]))) {
         return new BadRequest(new MissingParamError($fieldName));
       }
-    }    
+    }
+
+    if($this->emailValidator->isValid($httpRequest->body['email'])) {
+      return new BadRequest(new MissingParamError('email'));
+    }
+    return new Ok();
   }
 }
