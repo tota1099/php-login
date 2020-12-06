@@ -11,3 +11,7 @@
     require_once(__DIR__."/src/data/usecases/usecases.php");
     require_once(__DIR__."/src/infra/db/helpers/helpers.php");
     require_once(__DIR__."/src/infra/db/account/account.php");
+    require_once(__DIR__."/src/presentation/interfaces/interfaces.php");
+    require_once(__DIR__."/src/presentation/errors/errors.php");
+    require_once(__DIR__."/src/presentation/helpers/helpers.php");
+    require_once(__DIR__."/src/presentation/controllers/controllers.php");
