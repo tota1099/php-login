@@ -24,6 +24,7 @@ final class MysqlAccountRepositoryTest extends TestCase
     );
     $account = $this->sut->add($addAccountModel);
 
+    $this->assertIsInt($account->id);
     $this->assertEquals($name, $account->name);
     $this->assertEquals($email, $account->email);
   }
