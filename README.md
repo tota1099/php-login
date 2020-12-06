@@ -15,5 +15,6 @@ $ php composer.phar install
 ## Run tests
 
 ```bash
+$ ./vendor/bin/phinx migrate -e testing
 $ ./vendor/bin/phpunit --testdox
 ```

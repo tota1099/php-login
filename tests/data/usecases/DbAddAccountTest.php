@@ -6,7 +6,7 @@ final class DbAddAccountTest extends TestCase
 {
   private Faker\Generator $faker;
   private Account $account;
-  private AddAccountRepository $addAccountRepository;
+  private AccountRepository $accountRepository;
   private AddAccountModel $addAccountModel;
 
   protected function setUp() : void
@@ -17,27 +17,27 @@ final class DbAddAccountTest extends TestCase
   }
 
   private function mockSuccess() {
-    $mock = $this->createMock('AddAccountRepository');
+    $mock = $this->createMock('AccountRepository');
     $mock->expects($this->once())
         ->method('add')
         ->with($this->addAccountModel)
         ->willReturn($this->account);
-    $this->addAccountRepository = $mock;
+    $this->accountRepository = $mock;
   }
 
   private function mockThrows() {
-    $mock = $this->createMock('AddAccountRepository');
+    $mock = $this->createMock('AccountRepository');
     $mock->expects($this->once())
         ->method('add')
         ->willThrowException(new Exception('any error'));
-    $this->addAccountRepository = $mock;
+    $this->accountRepository = $mock;
   }
 
-  public function testShouldCallAddAccountRepositoryWithCorrectValues(): void
+  public function testShouldCallAccountRepositoryWithCorrectValues(): void
   {
     $this->mockSuccess();
 
-    $sut = new DbAddAccount($this->addAccountRepository);
+    $sut = new DbAddAccount($this->accountRepository);
 
     $sut->add($this->addAccountModel);
   }
@@ -46,7 +46,7 @@ final class DbAddAccountTest extends TestCase
   {
     $this->mockSuccess();
 
-    $sut = new DbAddAccount($this->addAccountRepository);
+    $sut = new DbAddAccount($this->accountRepository);
 
     $this->assertSame($this->account, $sut->add($this->addAccountModel));
   }
@@ -55,7 +55,7 @@ final class DbAddAccountTest extends TestCase
   {
     $this->mockThrows();
 
-    $sut = new DbAddAccount($this->addAccountRepository);
+    $sut = new DbAddAccount($this->accountRepository);
 
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('any error');

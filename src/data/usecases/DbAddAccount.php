@@ -3,10 +3,10 @@
 class DbAddAccount implements AddAccount {
   
   public function __construct(
-    private AddAccountRepository $addAccountRepository
+    private AccountRepository $accountRepository
   ) {}
 
   public function add(AddAccountModel $addAccountModel) : Account {
-    return $this->addAccountRepository->add($addAccountModel);
+    return $this->accountRepository->add($addAccountModel);
   }
 }

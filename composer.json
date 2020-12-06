@@ -13,5 +13,7 @@
             "email": "renan.porto1099@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "robmorgan/phinx": "^0.12.4"
+    }
 }

@@ -12,5 +12,6 @@
   </testsuites>
   <php>
     <env name="APP_ENV" value="testing"/>
+    <env name="DATABASE_URI" value="sqlite:testing.db"/>
   </php>
 </phpunit>
