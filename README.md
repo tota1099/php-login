@@ -1,6 +1,6 @@
 # Login PHP
 
-[![Build Status](https://travis-ci.org/tota1099/php-login.svg?branch=master)](https://travis-ci.org/tota1099/php-login)
+[![Build Status](https://travis-ci.org/tota1099/php-login.svg?branch=main)](https://travis-ci.org/tota1099/php-login)
 
 PHP Login Project with clean architecture and tests
 
