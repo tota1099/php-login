@@ -141,10 +141,10 @@ final class SignUpControllerTest extends TestCase
     $sut->handle($httpRequest);
   }
 
-  public function shouldReturn500IfEmailValidThrows() {
-    $mock = $this->createMock('EmailValidator');
-    $mock->expects($this->once())->method('isValid')->willThrowException(new Exception());
-    $this->emailValidator = $mock;
+  public function testShouldReturn500IfAccountRepositoryThrows() {
+    $mock = $this->createMock('AccountRepository');
+    $mock->expects($this->once())->method('add')->willThrowException(new Exception());
+    $this->accountRepository = $mock;
 
     $sut = $this->makeSut();
     
