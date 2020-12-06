@@ -10,14 +10,6 @@
          failOnRisky="true"
          failOnWarning="true"
          colors="true">
-  <coverage>
-    <report>
-      <php outputFile="build/cov/coverage.cov"/>
-    </report>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </coverage>
   <logging/>
   <testsuites>
     <testsuite name="Unit">

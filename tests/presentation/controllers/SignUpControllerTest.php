@@ -120,4 +120,41 @@ final class SignUpControllerTest extends TestCase
     $httpResponse = $sut->handle($httpRequest);
     $this->assertEquals($httpResponse->statusCode, 500);
   }
+
+  public function testShouldCallAccountRepositoryWithValues() {
+    $account = [
+      'name' => $this->faker->name,
+      'password' => $this->faker->password,
+      'email' => $this->faker->name
+    ];
+    $mock = $this->createMock('AccountRepository');
+    $mock
+      ->expects($this->once())
+      ->method('add')
+      ->with(new AddAccountModel($account['name'], $account['email'], $account['password']));
+    
+      $this->accountRepository = $mock;
+
+    $sut = $this->makeSut();
+    $httpRequest = new HttpRequest($account);
+
+    $sut->handle($httpRequest);
+  }
+
+  public function shouldReturn500IfEmailValidThrows() {
+    $mock = $this->createMock('EmailValidator');
+    $mock->expects($this->once())->method('isValid')->willThrowException(new Exception());
+    $this->emailValidator = $mock;
+
+    $sut = $this->makeSut();
+    
+    $httpRequest = new HttpRequest([
+      'name' => $this->faker->name,
+      'password' => $this->faker->password,
+      'email' => $this->faker->email
+    ]);
+
+    $httpResponse = $sut->handle($httpRequest);
+    $this->assertEquals($httpResponse->statusCode, 500);
+  }
 }

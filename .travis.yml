@@ -10,4 +10,5 @@ before_script:
   - vendor/bin/phinx migrate -e testing
 script: ./vendor/bin/phpunit --testdox
 after_success:
-  - travis_retry php vendor/bin/php-coveralls -v
+  - ./vendor/bin/phpunit --log-junit build/logs/clover.xml
+  - vendor/bin/php-coveralls -v
