@@ -16,9 +16,9 @@ class SignUpController implements Controller {
       }
     }
 
-    if($this->emailValidator->isValid($httpRequest->body['email'])) {
-      return new BadRequest(new MissingParamError('email'));
+    if(!$this->emailValidator->isValid($httpRequest->body['email'])) {
+      return new BadRequest(new InvalidParamError('email'));
     }
-    return new Ok();
+    return new Ok([]);
   }
 }

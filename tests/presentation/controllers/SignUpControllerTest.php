@@ -83,4 +83,24 @@ final class SignUpControllerTest extends TestCase
 
     $sut->handle($httpRequest);
   }
+
+  public function testShouldReturn400IfEMailIsInvalid() {
+    $email = $this->faker->email;
+    $mock = $this->createMock('EmailValidator');
+    $mock->expects($this->once())->method('isValid')->with($email)->willReturn(false);
+    $this->emailValidator = $mock;
+
+    $sut = $this->makeSut();
+    
+    $httpRequest = new HttpRequest([
+      'name' => $this->faker->name,
+      'password' => $this->faker->password,
+      'email' => $email
+    ]);
+
+    $httpResponse = $sut->handle($httpRequest);
+
+    $this->assertEquals($httpResponse->statusCode, 400);
+    $this->assertEquals($httpResponse->body['error'], (new InvalidParamError('email'))->getMessage());
+  }
 }
