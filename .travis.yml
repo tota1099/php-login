@@ -1,0 +1,11 @@
+language: php
+php:
+  - 8.0
+cache:
+  directories:
+    "vendor"
+
+before_script:
+  - composer install
+  - vendor/bin/phinx migrate -e testing
+script: ./vendor/bin/phpunit --testdox
