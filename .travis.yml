@@ -10,4 +10,4 @@ before_script:
   - vendor/bin/phinx migrate -e testing
 script: ./vendor/bin/phpunit --testdox
 after_success:
-  - vendor/bin/phpunit --coverage-html reports/
+  - travis_retry php vendor/bin/php-coveralls -v

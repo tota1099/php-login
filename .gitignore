@@ -1,3 +1,4 @@
 vendor/
 .phpunit.result.cache
 testing.db
+build/
