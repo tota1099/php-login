@@ -9,3 +9,5 @@ before_script:
   - composer install
   - vendor/bin/phinx migrate -e testing
 script: ./vendor/bin/phpunit --testdox
+after_success:
+  - vendor/bin/phpunit --coverage-html reports/
