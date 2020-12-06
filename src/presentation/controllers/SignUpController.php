@@ -9,6 +9,11 @@ class SignUpController implements Controller {
 
   public function handle(HttpRequest $httpRequest): HttpResponse
   {
-    return new BadRequest(new MissingParamError('name'));    
+    $requiredFields = ['name', 'email', 'password'];
+    foreach($requiredFields as $fieldName) {
+      if(trim(empty($httpRequest->body[$fieldName]))) {
+        return new BadRequest(new MissingParamError($fieldName));
+      }
+    }    
   }
 }
