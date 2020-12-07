@@ -5,11 +5,11 @@ use PHPUnit\Framework\TestCase;
 final class SignUpControllerTest extends TestCase
 {
   private EmailValidator $emailValidator;
-  private AccountRepository $accountRepository;
+  private DbAccount $dbAccount;
   private Faker\Generator $faker;
 
   private function makeSut(): Controller {
-    return new SignUpController($this->emailValidator, $this->accountRepository);
+    return new SignUpController($this->emailValidator, $this->dbAccount);
   }
 
   private function mockSuccess(): void {
@@ -17,10 +17,10 @@ final class SignUpControllerTest extends TestCase
     $mock->method('isValid')->willReturn(true);
     $this->emailValidator = $mock;
 
-    $mock = $this->createMock('AccountRepository');
+    $mock = $this->createMock('DbAccount');
     $account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email());
     $mock->method('add')->willReturn($account);
-    $this->accountRepository = $mock;
+    $this->dbAccount = $mock;
   }
 
   public function setUp() : void {
@@ -121,19 +121,19 @@ final class SignUpControllerTest extends TestCase
     $this->assertEquals($httpResponse->statusCode, 500);
   }
 
-  public function testShouldCallAccountRepositoryWithValues() {
+  public function testShouldCallAccountDbWithValues() {
     $account = [
       'name' => $this->faker->name,
       'password' => $this->faker->password,
       'email' => $this->faker->name
     ];
-    $mock = $this->createMock('AccountRepository');
+    $mock = $this->createMock('DbAccount');
     $mock
       ->expects($this->once())
       ->method('add')
       ->with(new AddAccountModel($account['name'], $account['email'], $account['password']));
     
-      $this->accountRepository = $mock;
+      $this->dbAccount = $mock;
 
     $sut = $this->makeSut();
     $httpRequest = new HttpRequest($account);
@@ -141,10 +141,10 @@ final class SignUpControllerTest extends TestCase
     $sut->handle($httpRequest);
   }
 
-  public function testShouldReturn500IfAccountRepositoryThrows() {
-    $mock = $this->createMock('AccountRepository');
+  public function testShouldReturn500IfDbAccountThrows() {
+    $mock = $this->createMock('DbAccount');
     $mock->expects($this->once())->method('add')->willThrowException(new Exception());
-    $this->accountRepository = $mock;
+    $this->dbAccount = $mock;
 
     $sut = $this->makeSut();
     

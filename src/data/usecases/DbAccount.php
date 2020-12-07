@@ -1,6 +1,6 @@
 <?php
 
-class DbAddAccount implements AddAccount {
+class DbAccount implements AddAccount {
   
   public function __construct(
     private AccountRepository $accountRepository

@@ -4,7 +4,7 @@ class SignUpController implements Controller {
 
   public function __construct(
     private EmailValidator $emailValidator,
-    private AccountRepository $accountRepository
+    private DbAccount $dbAccount
   ){}
 
   public function handle(HttpRequest $httpRequest): HttpResponse
@@ -24,7 +24,7 @@ class SignUpController implements Controller {
       }
 
       $addAccountModel = new AddAccountModel($body['name'], $body['email'], $body['password']);
-      $this->accountRepository->add($addAccountModel);
+      $this->dbAccount->add($addAccountModel);
       
       return new Ok([]);
     } catch(Exception $e) {

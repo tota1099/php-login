@@ -15,3 +15,6 @@
     require_once(__DIR__."/src/presentation/errors/errors.php");
     require_once(__DIR__."/src/presentation/helpers/helpers.php");
     require_once(__DIR__."/src/presentation/controllers/controllers.php");
+    require_once(__DIR__."/src/utils/utils.php");
+    require_once(__DIR__."/src/main/helpers/helpers.php");
+    require_once(__DIR__."/src/main/factories/factories.php");

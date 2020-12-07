@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-final class DbAddAccountTest extends TestCase
+final class DbAccountTest extends TestCase
 {
   private Faker\Generator $faker;
   private Account $account;
@@ -37,7 +37,7 @@ final class DbAddAccountTest extends TestCase
   {
     $this->mockSuccess();
 
-    $sut = new DbAddAccount($this->accountRepository);
+    $sut = new DbAccount($this->accountRepository);
 
     $sut->add($this->addAccountModel);
   }
@@ -46,7 +46,7 @@ final class DbAddAccountTest extends TestCase
   {
     $this->mockSuccess();
 
-    $sut = new DbAddAccount($this->accountRepository);
+    $sut = new DbAccount($this->accountRepository);
 
     $this->assertSame($this->account, $sut->add($this->addAccountModel));
   }
@@ -55,7 +55,7 @@ final class DbAddAccountTest extends TestCase
   {
     $this->mockThrows();
 
-    $sut = new DbAddAccount($this->accountRepository);
+    $sut = new DbAccount($this->accountRepository);
 
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('any error');
