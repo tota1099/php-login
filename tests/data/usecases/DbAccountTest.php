@@ -7,6 +7,7 @@ final class DbAccountTest extends TestCase
   private Faker\Generator $faker;
   private Account $account;
   private AccountRepository $accountRepository;
+  private Encrypter $encrypter;
   private AddAccountModel $addAccountModel;
 
   protected function setUp() : void
@@ -14,18 +15,28 @@ final class DbAccountTest extends TestCase
     $this->faker = Faker\Factory::create();
     $this->account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email());
     $this->addAccountModel = new AddAccountModel($this->faker->name(), $this->faker->email(), $this->faker->password());
+    
+    $this->mockEncrypterSuccess();
+    $this->mockAccountRepositorySuccess();
   }
 
-  private function mockSuccess() {
+  private function mockAccountRepositorySuccess() {
     $mock = $this->createMock('AccountRepository');
-    $mock->expects($this->once())
-        ->method('add')
+    $mock->method('add')
         ->with($this->addAccountModel)
         ->willReturn($this->account);
     $this->accountRepository = $mock;
   }
 
-  private function mockThrows() {
+  private function mockEncrypterSuccess() {
+    $mock = $this->createMock('Encrypter');
+    $mock->method('encrypt')
+        ->with($this->addAccountModel->password)
+        ->willReturn($this->faker->password);
+    $this->encrypter = $mock;
+  }
+
+  private function mockAccountRepositoryThrows() {
     $mock = $this->createMock('AccountRepository');
     $mock->expects($this->once())
         ->method('add')
@@ -33,29 +44,45 @@ final class DbAccountTest extends TestCase
     $this->accountRepository = $mock;
   }
 
-  public function testShouldCallAccountRepositoryWithCorrectValues(): void
-  {
-    $this->mockSuccess();
+  private function mockEncrypterThrows() {
+    $mock = $this->createMock('Encrypter');
+    $mock->expects($this->once())
+        ->method('encrypt')
+        ->willThrowException(new Exception('any error'));
+    $this->encrypter = $mock;
+  }
 
-    $sut = new DbAccount($this->accountRepository);
+  public function testShouldCallAccountRepositoryAndEncrypterWithCorrectValues(): void
+  {
+    $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
     $sut->add($this->addAccountModel);
+    $this->assertTrue(true);
   }
 
   public function testShouldReturnAccountOnSuccess(): void
   {
-    $this->mockSuccess();
-
-    $sut = new DbAccount($this->accountRepository);
+    $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
     $this->assertSame($this->account, $sut->add($this->addAccountModel));
   }
 
-  public function testShouldThrowIfRepositoryThrows(): void
+  public function testShouldThrowIfAccountRepositoryThrows(): void
   {
-    $this->mockThrows();
+    $this->mockAccountRepositoryThrows();
 
-    $sut = new DbAccount($this->accountRepository);
+    $sut = new DbAccount($this->accountRepository, $this->encrypter);
+
+    $this->expectException(Exception::class);
+    $this->expectExceptionMessage('any error');
+    $sut->add($this->addAccountModel);
+  }
+
+  public function testShouldThrowIfEncrypterThrows(): void
+  {
+    $this->mockEncrypterThrows();
+
+    $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('any error');

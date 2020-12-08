@@ -131,7 +131,8 @@ final class SignUpControllerTest extends TestCase
     $mock
       ->expects($this->once())
       ->method('add')
-      ->with(new AddAccountModel($account['name'], $account['email'], $account['password']));
+      ->with(new AddAccountModel($account['name'], $account['email'], $account['password']))
+      ->willReturn(new Account($this->faker->randomNumber(), $account['name'], $account['email']));
     
       $this->dbAccount = $mock;
 
