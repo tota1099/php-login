@@ -4,11 +4,7 @@ class MysqlHelper {
   private ?PDO $database;
 
   private function connect() {
-    try {
-      $this->database = new PDO($_ENV['DATABASE_URI']);
-    } catch (PDOException $e) {
-      throw $e;
-    }
+    $this->database = new PDO($_ENV['DATABASE_URI'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
   }
 
   private function disconnect() {

@@ -24,9 +24,15 @@ class SignUpController implements Controller {
       }
 
       $addAccountModel = new AddAccountModel($body['name'], $body['email'], $body['password']);
-      $this->dbAccount->add($addAccountModel);
+      $account = $this->dbAccount->add($addAccountModel);
       
-      return new Ok([]);
+      return new Ok([
+        'id' => $account->id,
+        'name' => $account->name,
+        'email' => $account->email
+      ]);
+    } catch(DomainError $de) {
+      return new Conflict(['error' => $de->getMessage()]);
     } catch(Exception $e) {
       return new ServerError();
     }

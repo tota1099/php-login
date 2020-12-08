@@ -18,3 +18,6 @@
     require_once(__DIR__."/src/utils/utils.php");
     require_once(__DIR__."/src/main/helpers/helpers.php");
     require_once(__DIR__."/src/main/factories/factories.php");
+
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
