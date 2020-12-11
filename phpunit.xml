@@ -16,6 +16,12 @@
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
+  <coverage cacheDirectory=".phpunit.cache/code-coverage"
+            processUncoveredFiles="true">
+      <include>
+          <directory suffix=".php">src</directory>
+      </include>
+  </coverage>
   <php>
     <env name="APP_ENV" value="testing"/>
     <env name="DATABASE_URI" value="sqlite:testing.db"/>
