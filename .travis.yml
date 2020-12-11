@@ -4,7 +4,9 @@ php:
 cache:
   directories:
     "vendor"
-
+env:
+  global:
+    - XDEBUG_MODE=coverage
 before_script:
   - composer install
   - vendor/bin/phinx migrate -e testing
