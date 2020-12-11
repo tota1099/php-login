@@ -21,6 +21,10 @@
       <include>
           <directory suffix=".php">src</directory>
       </include>
+      <exclude>
+        <directory suffix=".php">src/main</directory>
+        <directory suffix=".php">src/domain</directory>
+      </exclude>
   </coverage>
   <php>
     <env name="APP_ENV" value="testing"/>
