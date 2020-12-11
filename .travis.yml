@@ -8,7 +8,7 @@ cache:
 before_script:
   - composer install
   - vendor/bin/phinx migrate -e testing
-script: ./vendor/bin/phpunit --testdox
+script: vendor/bin/phpunit --testdox
 after_success:
-  - ./vendor/bin/phpunit --log-junit build/logs/clover.xml
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
   - vendor/bin/php-coveralls -v
