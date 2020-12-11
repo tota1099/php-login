@@ -15,24 +15,24 @@ final class DbAccountTest extends TestCase
     $this->faker = Faker\Factory::create();
     $this->account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email());
     $this->addAccountModel = new AddAccountModel($this->faker->name(), $this->faker->email(), $this->faker->password());
-    
-    $this->mockEncrypterSuccess();
-    $this->mockAccountRepositorySuccess();
   }
 
   private function mockAccountRepositorySuccess() {
     $mock = $this->createMock('AccountRepository');
-    $mock->method('add')
-        ->with($this->addAccountModel)
-        ->willReturn($this->account);
+    $mock
+      ->method('add')
+      ->with($this->addAccountModel)
+      ->willReturn($this->account);
     $this->accountRepository = $mock;
   }
 
   private function mockEncrypterSuccess() {
     $mock = $this->createMock('Encrypter');
-    $mock->method('encrypt')
-        ->with($this->addAccountModel->password)
-        ->willReturn($this->faker->password);
+    $mock
+      ->expects($this->once())
+      ->method('encrypt')
+      ->with($this->addAccountModel->password)
+      ->willReturn($this->faker->password);
     $this->encrypter = $mock;
   }
 
@@ -54,14 +54,19 @@ final class DbAccountTest extends TestCase
 
   public function testShouldCallAccountRepositoryAndEncrypterWithCorrectValues(): void
   {
+    $this->mockEncrypterSuccess();
+    $this->mockAccountRepositorySuccess();
+
     $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
     $sut->add($this->addAccountModel);
-    $this->assertTrue(true);
   }
 
   public function testShouldReturnAccountOnSuccess(): void
   {
+    $this->mockEncrypterSuccess();
+    $this->mockAccountRepositorySuccess();
+
     $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
     $this->assertSame($this->account, $sut->add($this->addAccountModel));
@@ -70,6 +75,7 @@ final class DbAccountTest extends TestCase
   public function testShouldThrowIfAccountRepositoryThrows(): void
   {
     $this->mockAccountRepositoryThrows();
+    $this->mockEncrypterSuccess();
 
     $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
@@ -81,6 +87,7 @@ final class DbAccountTest extends TestCase
   public function testShouldThrowIfEncrypterThrows(): void
   {
     $this->mockEncrypterThrows();
+    $this->mockAccountRepositorySuccess();
 
     $sut = new DbAccount($this->accountRepository, $this->encrypter);
 
