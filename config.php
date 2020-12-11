@@ -9,8 +9,7 @@
     require_once(__DIR__."/src/domain/errors/errors.php");
     require_once(__DIR__."/src/data/interfaces/interfaces.php");
     require_once(__DIR__."/src/data/usecases/usecases.php");
-    require_once(__DIR__."/src/infra/db/helpers/helpers.php");
-    require_once(__DIR__."/src/infra/db/account/account.php");
+    require_once(__DIR__."/src/infra/db/db.php");
     require_once(__DIR__."/src/infra/cryptografy/cryptografy.php");
     require_once(__DIR__."/src/presentation/interfaces/interfaces.php");
     require_once(__DIR__."/src/presentation/errors/errors.php");
