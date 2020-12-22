@@ -34,7 +34,7 @@ final class DbModuleTest extends TestCase
     $this->moduleRepository = $mock;
   }
 
-  public function testShouldCallAccountRepositoryWithCorrectValues(): void
+  public function testShouldCallModuleRepositoryWithCorrectValues(): void
   {
     $this->mockModuleRepositorySuccess();
    

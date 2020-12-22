@@ -21,7 +21,7 @@ class MysqlModuleRepository implements ModuleRepository {
     );
   }
 
-  private function exists(String $field, String $value) : bool {
+  public function exists(String $field, String $value) : bool {
     $sql = "SELECT COUNT(*) FROM module WHERE {$field} = ? ";
     $mysqlHelper = new MysqlHelper();
     return $mysqlHelper->exists($sql, [ $value ]);

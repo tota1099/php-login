@@ -8,6 +8,9 @@ class DbTool implements AddTool {
   ) {}
 
   public function add(AddToolModel $addToolModel) : Tool {
+    if(!$this->moduleRepository->exists('id', $addToolModel->moduleId)) {
+      new DomainError('Invalid Module.');
+    }
     return $this->toolRepository->add($addToolModel);
   }
 }
