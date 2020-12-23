@@ -35,12 +35,12 @@ final class DbToolTest extends TestCase
     $this->toolRepository = $mock;
   }
 
-  private function mockModuleRepositorySuccess() {
+  private function mockModuleRepositorySuccess(int $moduleId = 0) {
     $mock = $this->createMock('ModuleRepository');
     $mock
       ->expects($this->once())
       ->method('exists')
-      ->with('id', $this->tool->module->id)
+      ->with('id', $moduleId ?: $this->tool->module->id)
       ->willReturn(true);
     $this->moduleRepository = $mock;
   }
@@ -85,7 +85,6 @@ final class DbToolTest extends TestCase
     $sut->add($this->addToolModel);
   }
 
-
   public function testShouldThrowIfModuleRepositoryThrows(): void
   {
     $this->mockToolRepositorySuccess();
@@ -95,6 +94,24 @@ final class DbToolTest extends TestCase
 
     $this->expectException(Exception::class);
     $this->expectExceptionMessage('any error module');
+    $sut->add($this->addToolModel);
+  }
+
+  public function testShouldReturnDomainErrorIfModuleNotExists(): void
+  {
+    $this->mockToolRepositorySuccess();
+
+    $mockModuleRepository = $this->createMock('ModuleRepository');
+    $mockModuleRepository
+      ->expects($this->once())
+      ->method('exists')
+      ->with('id', $this->addToolModel->moduleId)
+      ->willReturn(false);
+
+    $sut = new DbTool($this->toolRepository, $mockModuleRepository);
+
+    $this->expectException(DomainError::class);
+    $this->expectExceptionMessage('Invalid Module');
     $sut->add($this->addToolModel);
   }
 }
