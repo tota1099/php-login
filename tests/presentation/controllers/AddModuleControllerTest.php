@@ -15,7 +15,7 @@ final class AddModuleControllerTest extends TestCase
   private function mockSuccess(): void {
     $mock = $this->createMock('DbModule');
     $this->module = new Module($this->faker->randomDigit(), $this->faker->name());
-    $mock->method('add')->with($this->module->name)->willReturn($this->module);
+    $mock->method('add')->with(new AddModuleModel($this->module->name))->willReturn($this->module);
     $this->dbModule = $mock;
   }
 
@@ -50,6 +50,18 @@ final class AddModuleControllerTest extends TestCase
     $this->assertTrue(true);
   }
 
+  public function testShouldReturnModuleIfSuccess() {
+    $this->mockSuccess();
+    $sut = $this->makeSut();
+
+    $httpRequest = new HttpRequest(['name' => $this->module->name]);
+
+    $this->assertEquals(new Ok([
+      'id' => $this->module->id,
+      'name' => $this->module->name
+    ]), $sut->handle($httpRequest));
+  }
+
   public function testShouldReturn500IfDbModuleThrows() { 
     $this->mockThrows();
     $sut = $this->makeSut();
@@ -58,5 +70,18 @@ final class AddModuleControllerTest extends TestCase
 
     $httpResponse = $sut->handle($httpRequest);
     $this->assertEquals($httpResponse->statusCode, 500);
+  }
+
+  public function testShouldReturn409IfHasConflict() {
+    $mock = $this->createMock('dbModule');
+    $mock->expects($this->once())->method('add')->willThrowException(new DomainError('any_error'));
+    $this->dbModule = $mock;
+
+    $sut = $this->makeSut();
+    
+    $httpRequest = new HttpRequest(['name' => $this->faker->name]);
+    $httpResponse = $sut->handle($httpRequest);
+
+    $this->assertEquals($httpResponse->statusCode, 409);
   }
 }
