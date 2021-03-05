@@ -11,7 +11,7 @@ class MysqlHelper {
     $this->database = null;
   }
 
-  public function fetch($sql, $params = []) : Array {
+  public function fetch($sql, $params = []) : Array|bool {
     $this->connect();
     $stmt= $this->getDataBase()->prepare($sql);
     $stmt->execute($params);
@@ -38,14 +38,7 @@ class MysqlHelper {
     return $lastId;
   }
 
-  public function update($sql, $params = []) {
-    $this->connect();
-    $stmt= $this->getDataBase()->prepare($sql);
-    $stmt->execute($params);
-    $this->disconnect();
-  }
-
-  public function remove($sql, $params = []) {
+  public function execute($sql, $params = []) {
     $this->connect();
     $stmt= $this->getDataBase()->prepare($sql);
     $stmt->execute($params);
