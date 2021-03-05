@@ -1,5 +1,6 @@
 <?php
 
+use data\interfaces\Encrypter;
 use PHPUnit\Framework\TestCase;
 
 final class DbAccountTest extends TestCase
@@ -27,7 +28,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockEncrypterSuccess() {
-    $mock = $this->createMock('Encrypter');
+    $mock = $this->createMock('data\interfaces\Encrypter');
     $mock
       ->expects($this->once())
       ->method('encrypt')
@@ -45,7 +46,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockEncrypterThrows() {
-    $mock = $this->createMock('Encrypter');
+    $mock = $this->createMock('data\interfaces\Encrypter');
     $mock->expects($this->once())
         ->method('encrypt')
         ->willThrowException(new Exception('any error'));

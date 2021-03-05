@@ -1,5 +1,7 @@
 <?php
 
+use data\interfaces\Encrypter;
+
 class DbAccount implements AddAccount {
   
   public function __construct(
