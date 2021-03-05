@@ -158,4 +158,21 @@ final class SignUpControllerTest extends TestCase
     $httpResponse = $sut->handle($httpRequest);
     $this->assertEquals($httpResponse->statusCode, 500);
   }
+
+  public function testShouldReturn409IfHasConflict() {
+    $mock = $this->createMock('DbAccount');
+    $mock->expects($this->once())->method('add')->willThrowException(new DomainError('any_error'));
+    $this->dbAccount = $mock;
+
+    $sut = $this->makeSut();
+    
+    $httpRequest = new HttpRequest([
+      'name' => $this->faker->name,
+      'password' => $this->faker->password,
+      'email' => $this->faker->email
+    ]);
+    $httpResponse = $sut->handle($httpRequest);
+
+    $this->assertEquals($httpResponse->statusCode, 409);
+  }
 }
