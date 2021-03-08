@@ -9,12 +9,12 @@ Esqueleto de um sistema baseado em módulos e permissões de acesso, construido 
 
 A arquitetura do projeto está dividida em camadas, sendo elas: 
 
-- Domain: Entidades do sistema e contratos de casos de usos
-- Use Cases: 
-- Infra: Implementações de adapters para frameworks e bibliotecas externas
-- Presentation: A porta de entrada da nossa aplicação. No nosso caso, disponibilizamos os nossos recursos em endpoints HTTP, mas nada impede no futuro de disponibilizarmos via terminal por exemplo.
-- Main: Aqui é feito a montagem de todo o quebra cabeça. Esta camada possui um auto grau de acoplamento.
-- Utils: Implementações de recursos genéricos úteis no sistema (Exemplo: Email Validator, Encrypter)
+- **Domain:** Entidades do sistema e contratos de casos de usos
+- **Use Cases:** Essa camada é a que contém as regras de negócios mais específicas do sistema. Aqui que todos os casos de uso do sistema são implementados. Apenas mudanças de requisitos afetem essa camada
+- **Infra:** Implementações de adapters para frameworks e bibliotecas externas
+- **Presentation:** A porta de entrada da nossa aplicação. No nosso caso, disponibilizamos os nossos recursos em endpoints HTTP, mas nada impede no futuro de disponibilizarmos via terminal por exemplo.
+- **Main:** Aqui é feito a montagem de todo o quebra cabeça. Esta camada possui um auto grau de acoplamento.
+- **Utils:** Implementações de recursos genéricos úteis no sistema (Exemplo: Email Validator, Encrypter)
 
 A stack do projeto é:
 
