@@ -1,30 +1,42 @@
 <?php
 
+namespace App\Test\presentation\controllers;
+
+use App\data\usecases\Account\DbAccount;
+use App\domain\errors\DomainError;
+use App\domain\model\Account\Account;
+use App\domain\model\Account\AddAccountModel;
+use App\presentation\controllers\SignUpController;
+use App\presentation\errors\InvalidParamError;
+use App\presentation\errors\MissingParamError;
+use App\presentation\interfaces\Controller;
+use App\presentation\interfaces\EmailValidator;
+use App\presentation\interfaces\HttpRequest;
 use PHPUnit\Framework\TestCase;
 
 final class SignUpControllerTest extends TestCase
 {
   private EmailValidator $emailValidator;
   private DbAccount $dbAccount;
-  private Faker\Generator $faker;
+  private \Faker\Generator $faker;
 
   private function makeSut(): Controller {
     return new SignUpController($this->emailValidator, $this->dbAccount);
   }
 
   private function mockSuccess(): void {
-    $mock = $this->createMock('EmailValidator');
+    $mock = $this->createMock('App\presentation\interfaces\EmailValidator');
     $mock->method('isValid')->willReturn(true);
     $this->emailValidator = $mock;
 
-    $mock = $this->createMock('DbAccount');
+    $mock = $this->createMock('App\data\usecases\Account\DbAccount');
     $account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email());
     $mock->method('add')->willReturn($account);
     $this->dbAccount = $mock;
   }
 
   public function setUp() : void {
-    $this->faker = Faker\Factory::create();
+    $this->faker = \Faker\Factory::create();
     $this->mockSuccess();
   }
 
@@ -69,7 +81,7 @@ final class SignUpControllerTest extends TestCase
 
   public function testShouldCallEmailValidatorWithCorrectEmail() {
     $email = $this->faker->email;
-    $mock = $this->createMock('EmailValidator');
+    $mock = $this->createMock('App\presentation\interfaces\EmailValidator');
     $mock->expects($this->once())->method('isValid')->with($email)->willReturn(true);
     $this->emailValidator = $mock;
 
@@ -86,7 +98,7 @@ final class SignUpControllerTest extends TestCase
 
   public function testShouldReturn400IfEMailIsInvalid() {
     $email = $this->faker->email;
-    $mock = $this->createMock('EmailValidator');
+    $mock = $this->createMock('App\presentation\interfaces\EmailValidator');
     $mock->expects($this->once())->method('isValid')->with($email)->willReturn(false);
     $this->emailValidator = $mock;
 
@@ -105,8 +117,8 @@ final class SignUpControllerTest extends TestCase
   }
 
   public function testShouldReturn500IfEmailValidThrows() {
-    $mock = $this->createMock('EmailValidator');
-    $mock->expects($this->once())->method('isValid')->willThrowException(new Exception());
+    $mock = $this->createMock('App\presentation\interfaces\EmailValidator');
+    $mock->expects($this->once())->method('isValid')->willThrowException(new \Exception());
     $this->emailValidator = $mock;
 
     $sut = $this->makeSut();
@@ -127,7 +139,7 @@ final class SignUpControllerTest extends TestCase
       'password' => $this->faker->password,
       'email' => $this->faker->name
     ];
-    $mock = $this->createMock('DbAccount');
+    $mock = $this->createMock('App\data\usecases\Account\DbAccount');
     $mock
       ->expects($this->once())
       ->method('add')
@@ -143,8 +155,8 @@ final class SignUpControllerTest extends TestCase
   }
 
   public function testShouldReturn500IfDbAccountThrows() {
-    $mock = $this->createMock('DbAccount');
-    $mock->expects($this->once())->method('add')->willThrowException(new Exception());
+    $mock = $this->createMock('App\data\usecases\Account\DbAccount');
+    $mock->expects($this->once())->method('add')->willThrowException(new \Exception());
     $this->dbAccount = $mock;
 
     $sut = $this->makeSut();
@@ -160,7 +172,7 @@ final class SignUpControllerTest extends TestCase
   }
 
   public function testShouldReturn409IfHasConflict() {
-    $mock = $this->createMock('DbAccount');
+    $mock = $this->createMock('App\data\usecases\Account\DbAccount');
     $mock->expects($this->once())->method('add')->willThrowException(new DomainError('any_error'));
     $this->dbAccount = $mock;
 

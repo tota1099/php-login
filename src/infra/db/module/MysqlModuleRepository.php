@@ -1,5 +1,13 @@
 <?php
 
+namespace App\infra\db\module;
+
+use App\data\interfaces\ModuleRepository;
+use App\domain\errors\DomainError;
+use App\domain\model\Module\AddModuleModel;
+use App\domain\model\Module\Module;
+use App\infra\db\helpers\MysqlHelper;
+
 class MysqlModuleRepository implements ModuleRepository {
 
   public function get(int $moduleId) : Module {
@@ -30,7 +38,7 @@ class MysqlModuleRepository implements ModuleRepository {
     $sql = "INSERT INTO module (name, created) VALUES (?,?)";
     $moduleId = $mysqlHelper->insert($sql, [
       $addModuleModel->name,
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ]);
 
     return new Module(

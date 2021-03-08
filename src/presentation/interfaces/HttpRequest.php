@@ -1,5 +1,6 @@
 <?php
 
+namespace App\presentation\interfaces;
 class HttpRequest {
   public Array $body;
 

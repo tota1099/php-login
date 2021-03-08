@@ -2,8 +2,8 @@
 
 namespace tests\infra\cryptografy;
 
-use data\interfaces\Encrypter;
-use infra\cryptografy\BcryptAdapter;
+use App\data\interfaces\Encrypter;
+use App\infra\cryptografy\BcryptAdapter;
 use PHPUnit\Framework\TestCase;
 
 final class BcryptTest extends TestCase
@@ -17,14 +17,14 @@ final class BcryptTest extends TestCase
   }
 
   public function testShouldCallPasswordHashWithCorrectValues() {
-    $mock = $this->getFunctionMock('infra\cryptografy', "password_hash");
+    $mock = $this->getFunctionMock('App\infra\cryptografy', "password_hash");
     $mock->expects($this->once())->with("foo", PASSWORD_BCRYPT)->willReturn("bar");
 
     $this->assertSame('bar', $this->sut->encrypt('foo'));
   }
 
   public function testShouldThrowsIfPasswordHashThrows() {
-    $mock = $this->getFunctionMock('infra\cryptografy', "password_hash");
+    $mock = $this->getFunctionMock('App\infra\cryptografy', "password_hash");
 
     $this->expectException(\Exception::class);
     $this->expectExceptionMessage('any error');

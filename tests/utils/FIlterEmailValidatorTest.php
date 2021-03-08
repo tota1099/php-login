@@ -1,5 +1,9 @@
 <?php
 
+namespace tests\utils;
+
+use App\presentation\interfaces\EmailValidator;
+use App\utils\FilterEmailValidator;
 use PHPUnit\Framework\TestCase;
 
 final class FilterEmailValidatorTest extends TestCase

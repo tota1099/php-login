@@ -1,10 +1,12 @@
 <?php
 
+namespace App\infra\db\helpers;
+
 class MysqlHelper {
-  private ?PDO $database;
+  private ?\PDO $database;
 
   private function connect() {
-    $this->database = new PDO($_ENV['DATABASE_URI'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
+    $this->database = new \PDO($_ENV['DATABASE_URI'], $_ENV['DATABASE_USER'], $_ENV['DATABASE_PASSWORD']);
   }
 
   private function disconnect() {
@@ -15,7 +17,7 @@ class MysqlHelper {
     $this->connect();
     $stmt= $this->getDataBase()->prepare($sql);
     $stmt->execute($params);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
     $this->disconnect();
     return $result;
   }
@@ -24,7 +26,7 @@ class MysqlHelper {
     $this->connect();
     $stmt= $this->getDataBase()->prepare($sql);
     $stmt->execute();
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
     $this->disconnect();
     return $result;
   }

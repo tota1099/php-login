@@ -1,10 +1,19 @@
 <?php
 
+namespace tests\data\usecases\Tool;
+
+use App\data\interfaces\ModuleRepository;
+use App\data\interfaces\ToolRepository;
+use App\data\usecases\Tool\DbTool;
+use App\domain\errors\DomainError;
+use App\domain\model\Module\Module;
+use App\domain\model\Tool\AddToolModel;
+use App\domain\model\Tool\Tool;
 use PHPUnit\Framework\TestCase;
 
 final class DbToolTest extends TestCase
 {
-  private Faker\Generator $faker;
+  private \Faker\Generator $faker;
   private Tool $tool;
   private ToolRepository $toolRepository;
   private ModuleRepository $moduleRepository;
@@ -12,14 +21,14 @@ final class DbToolTest extends TestCase
 
   protected function setUp() : void
   {
-    $this->faker = Faker\Factory::create();
+    $this->faker = \Faker\Factory::create();
     $module = new Module($this->faker->randomDigit(), $this->faker->name());
     $this->tool = new Tool($this->faker->randomDigit(), $this->faker->name(), $module);
     $this->addToolModel = new AddToolModel($this->faker->name(), $module->id);
   }
 
   private function mockToolRepositorySuccess() {
-    $mock = $this->createMock('ToolRepository');
+    $mock = $this->createMock('App\data\interfaces\ToolRepository');
     $mock
       ->method('add')
       ->with($this->addToolModel)
@@ -28,15 +37,15 @@ final class DbToolTest extends TestCase
   }
 
   private function mockToolRepositoryThrows() {
-    $mock = $this->createMock('ToolRepository');
+    $mock = $this->createMock('App\data\interfaces\ToolRepository');
     $mock->expects($this->once())
         ->method('add')
-        ->willThrowException(new Exception('any error tool'));
+        ->willThrowException(new \Exception('any error tool'));
     $this->toolRepository = $mock;
   }
 
   private function mockModuleRepositorySuccess(int $moduleId = 0) {
-    $mock = $this->createMock('ModuleRepository');
+    $mock = $this->createMock('App\data\interfaces\ModuleRepository');
     $mock
       ->expects($this->once())
       ->method('exists')
@@ -46,10 +55,10 @@ final class DbToolTest extends TestCase
   }
 
   private function mockModuleRepositoryThrows() {
-    $mock = $this->createMock('ModuleRepository');
+    $mock = $this->createMock('App\data\interfaces\ModuleRepository');
     $mock
       ->method('exists')
-      ->willThrowException(new Exception('any error module'));
+      ->willThrowException(new \Exception('any error module'));
     $this->moduleRepository = $mock;
   }
 
@@ -80,7 +89,7 @@ final class DbToolTest extends TestCase
 
     $sut = new DbTool($this->toolRepository, $this->moduleRepository);
 
-    $this->expectException(Exception::class);
+    $this->expectException(\Exception::class);
     $this->expectExceptionMessage('any error tool');
     $sut->add($this->addToolModel);
   }
@@ -92,7 +101,7 @@ final class DbToolTest extends TestCase
 
     $sut = new DbTool($this->toolRepository, $this->moduleRepository);
 
-    $this->expectException(Exception::class);
+    $this->expectException(\Exception::class);
     $this->expectExceptionMessage('any error module');
     $sut->add($this->addToolModel);
   }
@@ -101,7 +110,7 @@ final class DbToolTest extends TestCase
   {
     $this->mockToolRepositorySuccess();
 
-    $mockModuleRepository = $this->createMock('ModuleRepository');
+    $mockModuleRepository = $this->createMock('App\data\interfaces\ModuleRepository');
     $mockModuleRepository
       ->expects($this->once())
       ->method('exists')

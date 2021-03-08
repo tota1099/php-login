@@ -1,11 +1,11 @@
 <?php
 
 namespace App\domain\model\Module;
-class Module {
+
+class AddModuleModel {
 
   public function __construct(
-    public int $id,
-    public string $name,
+    public string $name
   )
   {}
 }

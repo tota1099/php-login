@@ -1,5 +1,6 @@
 <?php
 
+namespace App\presentation\interfaces;
 class HttpResponse {
   public int $statusCode;
   public Array $body;

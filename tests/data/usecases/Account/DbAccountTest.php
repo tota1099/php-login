@@ -1,6 +1,10 @@
 <?php
 
-use data\interfaces\Encrypter;
+use App\data\interfaces\AccountRepository;
+use App\data\interfaces\Encrypter;
+use App\data\usecases\Account\DbAccount;
+use App\domain\model\Account\Account;
+use App\domain\model\Account\AddAccountModel;
 use PHPUnit\Framework\TestCase;
 
 final class DbAccountTest extends TestCase
@@ -19,7 +23,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockAccountRepositorySuccess() {
-    $mock = $this->createMock('AccountRepository');
+    $mock = $this->createMock('App\data\interfaces\AccountRepository');
     $mock
       ->method('add')
       ->with($this->addAccountModel)
@@ -28,7 +32,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockEncrypterSuccess() {
-    $mock = $this->createMock('data\interfaces\Encrypter');
+    $mock = $this->createMock('App\data\interfaces\Encrypter');
     $mock
       ->expects($this->once())
       ->method('encrypt')
@@ -38,7 +42,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockAccountRepositoryThrows() {
-    $mock = $this->createMock('AccountRepository');
+    $mock = $this->createMock('App\data\interfaces\AccountRepository');
     $mock->expects($this->once())
         ->method('add')
         ->willThrowException(new Exception('any error'));
@@ -46,7 +50,7 @@ final class DbAccountTest extends TestCase
   }
 
   private function mockEncrypterThrows() {
-    $mock = $this->createMock('data\interfaces\Encrypter');
+    $mock = $this->createMock('App\data\interfaces\Encrypter');
     $mock->expects($this->once())
         ->method('encrypt')
         ->willThrowException(new Exception('any error'));

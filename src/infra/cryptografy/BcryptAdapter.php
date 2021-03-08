@@ -1,8 +1,8 @@
 <?php
 
-namespace infra\cryptografy;
+namespace App\infra\cryptografy;
 
-use data\interfaces\Encrypter;
+use App\data\interfaces\Encrypter;
 
 class BcryptAdapter implements Encrypter {
   public function encrypt(String $value): String

@@ -1,5 +1,8 @@
 <?php
 
+namespace tests\infra\db\helpers;
+
+use App\infra\db\helpers\MysqlHelper;
 use PHPUnit\Framework\TestCase;
 
 final class MysqlHelperTest extends TestCase
@@ -13,7 +16,7 @@ final class MysqlHelperTest extends TestCase
   public function testInsertAndFetchRecord() {
     $params = [
       'name',
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ];
     $lastRecord = $this->sut->fetch('SELECT MAX(id) as id FROM module');
     $id = $this->sut->insert('INSERT INTO module (name, created) VALUES (?,?)', $params);
@@ -27,7 +30,7 @@ final class MysqlHelperTest extends TestCase
   public function testExecuteUpdateRecord() {
     $params = [
       'name',
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ];
     $id = $this->sut->insert('INSERT INTO module (name, created) VALUES (?,?)', $params);
 
@@ -42,7 +45,7 @@ final class MysqlHelperTest extends TestCase
   public function testExecuteDeleteRecord() {
     $params = [
       'name',
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ];
 
     $id = $this->sut->insert('INSERT INTO module (name, created) VALUES (?,?)', $params);
@@ -60,7 +63,7 @@ final class MysqlHelperTest extends TestCase
   }
 
   public function testFetchAll() {
-    $now = (new DateTime())->format('Y-m-d H:i:s');
+    $now = (new \DateTime())->format('Y-m-d H:i:s');
     
     $ids = [];
 

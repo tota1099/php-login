@@ -1,6 +1,12 @@
 <?php
 
-use data\interfaces\Encrypter;
+namespace App\data\usecases\Account;
+
+use App\data\interfaces\AccountRepository;
+use App\data\interfaces\Encrypter;
+use App\domain\model\Account\Account;
+use App\domain\model\Account\AddAccountModel;
+use App\domain\usecases\Account\AddAccount;
 
 class DbAccount implements AddAccount {
   

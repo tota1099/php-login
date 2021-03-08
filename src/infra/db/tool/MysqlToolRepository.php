@@ -1,5 +1,14 @@
 <?php
 
+namespace App\infra\db\tool;
+
+use App\data\interfaces\ModuleRepository;
+use App\data\interfaces\ToolRepository;
+use App\domain\errors\DomainError;
+use App\domain\model\Tool\AddToolModel;
+use App\domain\model\Tool\Tool;
+use App\infra\db\helpers\MysqlHelper;
+
 class MysqlToolRepository implements ToolRepository {
 
   private ModuleRepository $moduleRepository;
@@ -20,7 +29,7 @@ class MysqlToolRepository implements ToolRepository {
     $toolId = $mysqlHelper->insert($sql, [
       $addToolModel->name,
       $addToolModel->moduleId,
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ]);
 
     return new Tool(

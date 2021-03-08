@@ -1,5 +1,13 @@
 <?php
 
+namespace App\infra\db\account;
+
+use App\data\interfaces\AccountRepository;
+use App\domain\errors\DomainError;
+use App\domain\model\Account\Account;
+use App\domain\model\Account\AddAccountModel;
+use App\infra\db\helpers\MysqlHelper;
+
 class MysqlAccountRepository implements AccountRepository {
 
   public function add(AddAccountModel $addAccountModel) : Account {
@@ -14,7 +22,7 @@ class MysqlAccountRepository implements AccountRepository {
       $addAccountModel->name,
       $addAccountModel->email,
       $addAccountModel->password,
-      (new DateTime())->format('Y-m-d H:i:s')
+      (new \DateTime())->format('Y-m-d H:i:s')
     ]);
 
     return new Account(

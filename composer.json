@@ -15,6 +15,17 @@
             "email": "renan.porto1099@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Vendor\\": "vendor/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Test\\": "tests/"
+        }
+    },
     "require": {
         "robmorgan/phinx": "^0.12.4",
         "vlucas/phpdotenv": "^5.2"

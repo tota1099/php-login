@@ -1,15 +1,20 @@
 <?php
 
+namespace tests\infra\db\account;
+
+use App\domain\errors\DomainError;
+use App\domain\model\Account\AddAccountModel;
+use App\infra\db\account\MysqlAccountRepository;
 use PHPUnit\Framework\TestCase;
 
 final class MysqlAccountRepositoryTest extends TestCase
 {
   public MysqlAccountRepository $sut;
-  private Faker\Generator $faker;
+  private \Faker\Generator $faker;
 
   public function setUp() : void {
     $this->sut = new MysqlAccountRepository();
-    $this->faker = Faker\Factory::create();
+    $this->faker = \Faker\Factory::create();
   }
 
   public function testShouldReturnAnAccountOnSuccess() {

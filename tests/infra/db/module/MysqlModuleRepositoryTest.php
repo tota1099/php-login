@@ -1,15 +1,21 @@
 <?php
 
+namespace tests\infra\db\module;
+
+use App\data\interfaces\ModuleRepository;
+use App\domain\errors\DomainError;
+use App\domain\model\Module\AddModuleModel;
+use App\infra\db\module\MysqlModuleRepository;
 use PHPUnit\Framework\TestCase;
 
 final class MysqlModuleRepositoryTest extends TestCase
 {
-  public MysqlModuleRepository $sut;
-  private Faker\Generator $faker;
+  public ModuleRepository $sut;
+  private \Faker\Generator $faker;
 
   public function setUp() : void {
     $this->sut = new MysqlModuleRepository();
-    $this->faker = Faker\Factory::create();
+    $this->faker = \Faker\Factory::create();
   }
 
   public function testShouldReturnAModuleOnSuccess() {

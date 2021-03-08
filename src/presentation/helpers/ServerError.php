@@ -1,5 +1,9 @@
 <?php
 
+namespace App\presentation\helpers;
+
+use App\presentation\interfaces\HttpResponse;
+
 class ServerError extends HttpResponse {
   public function __construct()
   {
