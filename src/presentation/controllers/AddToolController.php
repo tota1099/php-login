@@ -8,6 +8,7 @@ use App\domain\model\Tool\AddToolModel;
 use App\presentation\errors\MissingParamError;
 use App\presentation\helpers\BadRequest;
 use App\presentation\helpers\Conflict;
+use App\presentation\helpers\Ok;
 use App\presentation\helpers\ServerError;
 use App\presentation\interfaces\Controller;
 use App\presentation\interfaces\HttpRequest;
@@ -32,7 +33,7 @@ class AddToolController implements Controller {
       }
 
       $addToolModel = new AddToolModel($body['name'], $body['moduleId']);
-      $tool = $this->dbModule->add($addToolModel);
+      $tool = $this->dbTool->add($addToolModel);
       
       return new Ok([
         'id' => $tool->id,
