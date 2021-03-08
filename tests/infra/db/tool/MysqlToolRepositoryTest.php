@@ -39,11 +39,27 @@ final class MysqlToolRepositoryTest extends TestCase
 
   public function testShouldThownIfModuleNotExists() {
     $name = $this->faker->name();
-    $addToolModel = new AddToolModel($name, $this->faker->randomNumber());
+    $addToolModel = new AddToolModel($name, $this->faker->randomDigit());
 
     $this->expectException(DomainError::class);
     $this->expectExceptionMessage('No record found');
 
+    $this->sut->add($addToolModel);
+  }
+
+  public function testShouldThrowIfDuplicatyEntry() {
+    $name = $this->faker->name();
+    $addModuleModel = new AddModuleModel($name);
+    $module = $this->moduleRepository->add($addModuleModel);
+
+    $name = $this->faker->name();
+    $addToolModel = new AddToolModel($name, $module->id);
+    
+    $this->expectException(DomainError::class);
+    $this->expectExceptionMessage('Duplicate entry');
+
+
+    $this->sut->add($addToolModel);
     $this->sut->add($addToolModel);
   }
 }

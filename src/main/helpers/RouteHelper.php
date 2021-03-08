@@ -1,5 +1,10 @@
 <?php
 
+namespace App\main\helpers;
+
+use App\presentation\interfaces\Controller;
+use App\presentation\interfaces\HttpRequest;
+
 class RouteHelper {
   public static function route(Controller $controller) : void {
     $input = file_get_contents('php://input');
