@@ -19,6 +19,11 @@ final class MysqlModuleRepositoryTest extends TestCase
 
     $this->assertIsInt($module->id);
     $this->assertEquals($name, $module->name);
+
+    $modulePersist = $this->sut->get($module->id);
+
+    $this->assertEquals($modulePersist->id, $module->id);
+    $this->assertEquals($modulePersist->name, $module->name);
   }
 
   public function testShouldThrowIfAlreadyExists() {
