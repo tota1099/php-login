@@ -2,6 +2,24 @@
 
 class MysqlModuleRepository implements ModuleRepository {
 
+  public function get(int $moduleId) : Module {
+    $mysqlHelper = new MysqlHelper();
+    $sql = "SELECT id, name, created FROM module WHERE id = ?";
+    
+    if(!$this->exists('id', $moduleId)) {
+      throw new DomainError('No record found');
+    }
+
+    $module = $mysqlHelper->fetch($sql, [
+      $moduleId
+    ]);
+
+    return new Module(
+      $moduleId,
+      $module['name']
+    );
+  }
+
   public function add(AddModuleModel $addModuleModel) : Module {
     $mysqlHelper = new MysqlHelper();
 
