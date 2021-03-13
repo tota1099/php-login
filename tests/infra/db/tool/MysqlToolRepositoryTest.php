@@ -39,7 +39,7 @@ final class MysqlToolRepositoryTest extends TestCase
 
   public function testShouldThownIfModuleNotExists() {
     $name = $this->faker->name();
-    $addToolModel = new AddToolModel($name, $this->faker->randomDigit());
+    $addToolModel = new AddToolModel($name, 99999999);
 
     $this->expectException(DomainError::class);
     $this->expectExceptionMessage('Invalid Module');
