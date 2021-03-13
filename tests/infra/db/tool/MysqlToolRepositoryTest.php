@@ -42,7 +42,7 @@ final class MysqlToolRepositoryTest extends TestCase
     $addToolModel = new AddToolModel($name, $this->faker->randomDigit());
 
     $this->expectException(DomainError::class);
-    $this->expectExceptionMessage('No record found');
+    $this->expectExceptionMessage('Invalid Module');
 
     $this->sut->add($addToolModel);
   }

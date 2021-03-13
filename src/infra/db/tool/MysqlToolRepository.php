@@ -25,6 +25,10 @@ class MysqlToolRepository implements ToolRepository {
       throw new DomainError('Duplicate entry');
     }
 
+    if(!$this->moduleRepository->exists('id', $addToolModel->moduleId)) {
+      throw new DomainError('Invalid Module');
+    }
+
     $sql = "INSERT INTO tool (name, moduleId, created) VALUES (?,?,?)";
     $toolId = $mysqlHelper->insert($sql, [
       $addToolModel->name,
