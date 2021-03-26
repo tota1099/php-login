@@ -18,6 +18,22 @@ class MysqlToolRepository implements ToolRepository {
     $this->moduleRepository = $moduleRepository;
   }
 
+  public function get(int $toolId) : Tool {
+    $mysqlHelper = new MysqlHelper();
+    $sql = "SELECT id, name, moduleId, created FROM tool WHERE id = ?";
+
+    $tool = $mysqlHelper->fetch($sql, [
+      $toolId
+    ]);
+
+    return new Tool(
+      $toolId,
+      $tool['name'],
+      $this->moduleRepository->get($tool['moduleId'])
+    );
+  }
+
+
   public function add(AddToolModel $addToolModel) : Tool {
     $mysqlHelper = new MysqlHelper();
 

@@ -7,4 +7,5 @@ use App\domain\model\Tool\Tool;
 
 interface ToolRepository {
   public function add(AddToolModel $addToolModel) : Tool;
+  public function get(int $toolId) : Tool;
 }

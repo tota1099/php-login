@@ -7,4 +7,5 @@ use App\domain\model\Account\AddAccountModel;
 
 interface AccountRepository {
   public function add(AddAccountModel $addAccountModel) : Account;
+  public function get(int $accountId) : Account;
 }

@@ -10,6 +10,22 @@ use App\infra\db\helpers\MysqlHelper;
 
 class MysqlAccountRepository implements AccountRepository {
 
+  public function get(int $accountId) : Account {
+    $mysqlHelper = new MysqlHelper();
+    $sql = "SELECT id, name, email, created FROM account WHERE id = ?";
+
+    $account = $mysqlHelper->fetch($sql, [
+      $accountId
+    ]);
+
+    return new Account(
+      $accountId,
+      $account['name'],
+      $account['email'],
+      $account['created']
+    );
+  }
+
   public function add(AddAccountModel $addAccountModel) : Account {
     $mysqlHelper = new MysqlHelper();
 
