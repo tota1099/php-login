@@ -40,11 +40,12 @@ class MysqlHelper {
     return $lastId;
   }
 
-  public function execute($sql, $params = []) {
+  public function execute($sql, $params = []) : bool {
     $this->connect();
     $stmt= $this->getDataBase()->prepare($sql);
-    $stmt->execute($params);
+    $success = $stmt->execute($params);
     $this->disconnect();
+    return $success;
   }
 
   public function exists($sql, $params = []) {

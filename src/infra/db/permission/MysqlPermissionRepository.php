@@ -61,6 +61,12 @@ class MysqlPermissionRepository implements PermissionRepository {
     );
   }
 
+  public function delete(int $permissionId) : bool {
+    $mysqlHelper = new MysqlHelper();
+
+    return $mysqlHelper->execute('DELETE FROM permission WHERE id = ' . $permissionId);
+  }
+
   public function exists(int $accountId, int $toolId, int $type) : bool {
     $sql = "SELECT COUNT(*) FROM permission WHERE accountId = ? AND toolId = ? AND type = ?";
 
