@@ -34,17 +34,20 @@ class MysqlAccountRepository implements AccountRepository {
     }
 
     $sql = "INSERT INTO account (name, email, password, created) VALUES (?,?,?,?)";
+    $created = (new \DateTime())->format('Y-m-d H:i:s');
+
     $accountId = $mysqlHelper->insert($sql, [
       $addAccountModel->name,
       $addAccountModel->email,
       $addAccountModel->password,
-      (new \DateTime())->format('Y-m-d H:i:s')
+      $created
     ]);
 
     return new Account(
       $accountId,
       $addAccountModel->name,
       $addAccountModel->email,
+      $created
     );
   }
 

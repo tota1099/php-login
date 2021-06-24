@@ -45,7 +45,8 @@ class SignUpController implements Controller {
       return new Ok([
         'id' => $account->id,
         'name' => $account->name,
-        'email' => $account->email
+        'email' => $account->email,
+        'created' => $account->created
       ]);
     } catch(DomainError $de) {
       return new Conflict(['error' => $de->getMessage()]);

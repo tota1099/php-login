@@ -17,6 +17,26 @@ final class MysqlAccountRepositoryTest extends TestCase
     $this->faker = \Faker\Factory::create();
   }
 
+  public function testShouldReturnTheAccountRecentlyAdded() {
+    $name = $this->faker->name();
+    $email = $this->faker->email();
+    $password = $this->faker->password();
+
+    $addAccountModel = new AddAccountModel(
+      name: $name,
+      email: $email,
+      password: $password
+    );
+    $accountAdded = $this->sut->add($addAccountModel);
+    
+    $account = $this->sut->get($accountAdded->id);
+
+    $this->assertIsInt($account->id);
+    $this->assertEquals($name, $account->name);
+    $this->assertEquals($email, $account->email);
+    $this->assertNotNull($account->created);
+  }
+
   public function testShouldReturnAnAccountOnSuccess() {
     $name = $this->faker->name();
     $email = $this->faker->email();

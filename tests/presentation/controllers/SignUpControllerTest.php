@@ -30,7 +30,7 @@ final class SignUpControllerTest extends TestCase
     $this->emailValidator = $mock;
 
     $mock = $this->createMock('App\data\usecases\Account\DbAccount');
-    $account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email());
+    $account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email(), $this->faker->date());
     $mock->method('add')->willReturn($account);
     $this->dbAccount = $mock;
   }
@@ -144,9 +144,9 @@ final class SignUpControllerTest extends TestCase
       ->expects($this->once())
       ->method('add')
       ->with(new AddAccountModel($account['name'], $account['email'], $account['password']))
-      ->willReturn(new Account($this->faker->randomNumber(), $account['name'], $account['email']));
+      ->willReturn(new Account($this->faker->randomNumber(), $account['name'], $account['email'], $this->faker->date()));
     
-      $this->dbAccount = $mock;
+    $this->dbAccount = $mock;
 
     $sut = $this->makeSut();
     $httpRequest = new HttpRequest($account);
