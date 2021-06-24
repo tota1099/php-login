@@ -23,6 +23,23 @@ final class MysqlToolRepositoryTest extends TestCase
     $this->faker = \Faker\Factory::create();
   }
 
+  public function testShouldReturnAToolRecentlyAdded() {
+    $name = $this->faker->name();
+    $addModuleModel = new AddModuleModel($name);
+    $module = $this->moduleRepository->add($addModuleModel);
+
+    $name = $this->faker->name();
+    $addToolModel = new AddToolModel($name, $module->id);
+    $toolAdded = $this->sut->add($addToolModel);
+    
+    $tool = $this->sut->get($toolAdded->id);
+
+
+    $this->assertIsInt($tool->id);
+    $this->assertEquals($name, $tool->name);
+    $this->assertEquals($module->id, $tool->module->id);
+  }
+
   public function testShouldReturnAToolOnSuccess() {
     $name = $this->faker->name();
     $addModuleModel = new AddModuleModel($name);
