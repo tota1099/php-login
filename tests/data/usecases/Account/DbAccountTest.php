@@ -18,7 +18,13 @@ final class DbAccountTest extends TestCase
   protected function setUp() : void
   {
     $this->faker = Faker\Factory::create();
-    $this->account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email(), $this->faker->date());
+    $this->account = new Account(
+      $this->faker->randomDigit(),
+      $this->faker->name(),
+      $this->faker->email(),
+      $this->faker->password(),
+      $this->faker->date()
+    );
     $this->addAccountModel = new AddAccountModel($this->faker->name(), $this->faker->email(), $this->faker->password());
   }
 

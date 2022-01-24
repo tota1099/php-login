@@ -10,22 +10,6 @@ use App\infra\db\helpers\MysqlHelper;
 
 class MysqlAccountRepository implements AccountRepository {
 
-  public function get(int $accountId) : Account {
-    $mysqlHelper = new MysqlHelper();
-    $sql = "SELECT id, name, email, created FROM account WHERE id = ?";
-
-    $account = $mysqlHelper->fetch($sql, [
-      $accountId
-    ]);
-
-    return new Account(
-      $accountId,
-      $account['name'],
-      $account['email'],
-      $account['created']
-    );
-  }
-
   public function add(AddAccountModel $addAccountModel) : Account {
     $mysqlHelper = new MysqlHelper();
 
@@ -47,7 +31,44 @@ class MysqlAccountRepository implements AccountRepository {
       $accountId,
       $addAccountModel->name,
       $addAccountModel->email,
+      $addAccountModel->password,
       $created
+    );
+  }
+
+  public function get(int $accountId) : Account {
+    $mysqlHelper = new MysqlHelper();
+    $sql = "SELECT id, name, email, password, created FROM account WHERE id = ?";
+
+    $account = $mysqlHelper->fetch($sql, [
+      $accountId
+    ]);
+
+    return new Account(
+      $accountId,
+      $account['name'],
+      $account['email'],
+      $account['password'],
+      $account['created']
+    );
+  }
+
+  public function getByEmail(String $email) : Account {
+    $mysqlHelper = new MysqlHelper();
+    $sql = "SELECT id, name, email, password, created FROM account WHERE email = ?";
+
+    if(!$this->existsByEmail($email)) {
+      throw new DomainError('Record not found');
+    }
+
+    $account = $mysqlHelper->fetch($sql, [$email]);
+
+    return new Account(
+      $account['id'],
+      $account['name'],
+      $account['email'],
+      $account['password'],
+      $account['created']
     );
   }
 
@@ -55,5 +76,11 @@ class MysqlAccountRepository implements AccountRepository {
     $sql = "SELECT COUNT(*) FROM account WHERE {$field} = ? ";
     $mysqlHelper = new MysqlHelper();
     return $mysqlHelper->exists($sql, [ $value ]);
+  }
+
+  public function existsByEmail(String $email) : bool {
+    $sql = "SELECT COUNT(*) FROM account WHERE email = ?";
+    $mysqlHelper = new MysqlHelper();
+    return $mysqlHelper->exists($sql, [$email]);
   }
 }

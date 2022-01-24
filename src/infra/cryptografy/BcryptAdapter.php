@@ -9,4 +9,8 @@ class BcryptAdapter implements Encrypter {
   {
     return password_hash($value, PASSWORD_BCRYPT);    
   }
+
+  public function checkEncrypt(String $value, String $hash): bool {
+    return password_verify($value, $hash);
+  }
 }

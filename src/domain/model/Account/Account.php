@@ -7,6 +7,7 @@ class Account {
     public int $id,
     public string $name,
     public String $email,
+    public String $password,
     public String $created
   )
   {}

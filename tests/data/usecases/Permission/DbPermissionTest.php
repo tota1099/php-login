@@ -21,7 +21,13 @@ final class DbPermissionTest extends TestCase
   protected function setUp() : void
   {
     $this->faker = Faker\Factory::create();
-    $account = new Account($this->faker->randomDigit(), $this->faker->name(), $this->faker->email(), $this->faker->date());
+    $account = new Account(
+      $this->faker->randomDigit(),
+      $this->faker->name(),
+      $this->faker->email(),
+      $this->faker->password(),
+      $this->faker->date()
+    );
     $module = new Module($this->faker->randomDigit(), $this->faker->name());
     $tool = new Tool($this->faker->randomDigit(), $this->faker->name(), $module);
 
