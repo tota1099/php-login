@@ -19,7 +19,7 @@ jobs:
       - restore_cache:
           keys:
             # "composer.lock" can be used if it is committed to the repo
-            - composer-v1-{{ checksum "composer.lock" }
+            - composer-v1-{{ checksum "composer.lock" }}
             # fallback to using the latest cache if no exact match is found
             - composer-v1-
 
