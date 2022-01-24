@@ -1,0 +1,39 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      # Specify the version you desire here
+      - image: cimg/php:8.1.2
+    environment:
+      XDEBUG_MODE: coverage
+
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      - checkout
+
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - composer-v1-{{ checksum "composer.lock" }
+            # fallback to using the latest cache if no exact match is found
+            - composer-v1-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - ./vendor
+        
+      # Database
+      - run: vendor/bin/phinx migrate -e testing
+
+      # Test
+      - run: vendor/bin/phpunit --testdox
+      - run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+      - run: vendor/bin/php-coveralls -v
