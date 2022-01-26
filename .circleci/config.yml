@@ -13,6 +13,7 @@ jobs:
 
       - run: sudo apt update
       - run: php -d xdebug.mode=coverage
+      - run: php -d zend_extension=xdebug
       - run: sudo apt-get install php-xdebug
 
       # Download and cache dependencies
