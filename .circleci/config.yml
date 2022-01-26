@@ -14,7 +14,8 @@ jobs:
       - checkout
 
       - run: sudo apt update
-      - run: sudo apt-get install php8.0-xdebug
+      - run: php --version
+      - run: pecl install xdebug
 
       # Download and cache dependencies
       - restore_cache:
