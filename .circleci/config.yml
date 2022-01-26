@@ -5,8 +5,6 @@ jobs:
     docker:
       # Specify the version you desire here
       - image: cimg/php:8.0
-    environment:
-      XDEBUG_MODE: coverage
 
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
@@ -14,6 +12,7 @@ jobs:
       - checkout
 
       - run: sudo apt update
+      - run: php -d xdebug.mode=coverage
       - run: sudo apt-get install php-xdebug
 
       # Download and cache dependencies
