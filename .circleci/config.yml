@@ -15,7 +15,6 @@ jobs:
       - run: sudo apt update
       - run: sudo apt list --upgradable
       - run: sudo apt install php8.0-xdebug
-      - run: php -d zend_extension=php8.0-xdebug
       - run: php -d xdebug.mode=coverage
       - run: php -v
       - run: php -i
