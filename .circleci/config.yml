@@ -11,6 +11,7 @@ jobs:
     steps:
       - checkout
 
+      - run: sudo add-apt-repository ppa:ondrej/php
       - run: sudo apt update
       - run: sudo apt list --upgradable
       - run: sudo apt install php8.0-xdebug
