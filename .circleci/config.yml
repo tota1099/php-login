@@ -17,7 +17,8 @@ jobs:
       - run: sudo apt install php8.0-xdebug
       - run: php -d xdebug.mode=coverage
       - run: php -d zend_extension=xdebug
-      - run: php -i | grep xdebug
+      - run: php -v
+      - run: php -i
 
       # Download and cache dependencies
       - restore_cache:
