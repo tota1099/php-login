@@ -12,9 +12,9 @@ jobs:
       - checkout
 
       - run: sudo apt update
+      - run: sudo apt install php8.0-xdebug
       - run: php -d xdebug.mode=coverage
       - run: php -d zend_extension=xdebug
-      - run: sudo apt-get install php-xdebug
 
       # Download and cache dependencies
       - restore_cache:
