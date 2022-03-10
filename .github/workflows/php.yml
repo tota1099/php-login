@@ -15,11 +15,11 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Add PHP repository
-      run: add-apt-repository ppa:ondrej/php
+      run: sudo add-apt-repository ppa:ondrej/php
     - name: Update apt
-      run: apt update
+      run: sudo apt update
     - name: Install xdebug
-      run: apt install php8.0-xdebug
+      run: sudo apt install php8.0-xdebug
 
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
