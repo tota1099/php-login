@@ -13,8 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/checkout@v1    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: 8.0
     
     - name: Add PHP repository
       run: sudo add-apt-repository ppa:ondrej/php
