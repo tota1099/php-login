@@ -1,0 +1,46 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Add PHP repository
+      run: add-apt-repository ppa:ondrej/php
+    - name: Update apt
+      run: apt update
+    - name: Install xdebug
+      run: apt install php8.0-xdebug
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+      
+    - name: Tests - Migrate database
+      run: vendor/bin/phinx migrate -e testing
+    - name: Tests - Run
+      run: vendor/bin/phpunit --testdox
+    - name: Tests - Generate clover
+      run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    - name: Tests - Run coveralls
+      run: vendor/bin/php-coveralls -v
