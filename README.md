@@ -39,34 +39,23 @@ Utilizamos as seguintes bibliotecas no projeto:
 
 Para execução do serviço é necessário configurar as variáveis de ambiente:
 
-* DATABASE_URI: endereço de conexão com o banco de dados MYSQL (Exemplo: "mysql:host=127.0.0.1;dbname=project")
+* DATABASE_URI: endereço de conexão com o banco de dados MYSQL (Exemplo: "mysql:host=database;dbname=project")
 * DATABASE_USER: usuário do banco de dados
 * DATABASE_PASSWORD: senha do banco de dados 
-
-Após isto, deve-se instalar as dependências do projeto:
-
-```bash
-$  composer.phar install
-```
 
 O projeto está configurado para execução com o docker-compose. Para rodar o projeto, execute:
 
 ```bash
-$ docker-compose up -d php
+$ docker-compose up -d
 ```
 
 Após subir o ambiente, devemos rodar o gerenciador de migration para criar as tabelas do banco de dados:
 
 ```bash
-$ ./vendor/bin/phinx migrate
+$ docker exec -it php-apache ./vendor/bin/phinx migrate
 ```
 
-Agora basta subir o ambiente!
-
-```bash
-$ cd public
-$ php -S 127.0.0.1:8080
-```
+Agora basta entrar no `http://localhost/` no browser!
 
 - - - -
 ## Testes
@@ -74,6 +63,6 @@ $ php -S 127.0.0.1:8080
 Os testes automatizados são executados através da ferramenta PHPUNIT. Para rodar basta executar:
 
 ```bash
-$ ./vendor/bin/phinx migrate -e testing
-$ ./vendor/bin/phpunit --testdox
+$ docker exec -it php-apache ./vendor/bin/phinx migrate -e testing
+$ docker exec -it php-apache ./vendor/bin/phpunit --testdox
 ```

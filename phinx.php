@@ -11,7 +11,7 @@ return
         'default_environment' => 'development',
         'development' => [
             'adapter' => 'mysql',
-            'host' => '127.0.0.1',
+            'host' => 'database',
             'name' => 'project',
             'user' => 'root',
             'pass' => 'root',

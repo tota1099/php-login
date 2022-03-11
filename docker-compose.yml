@@ -1,7 +1,28 @@
 version: "3"
 
 services:
+  php_server:
+    container_name: php-apache
+    build: .
+    depends_on:
+      - database
+      - composer_installation
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - 80:80
+    links:
+      - database
+
+  composer_installation:
+    container_name: composer_installation
+    image: composer
+    volumes:
+      - ./:/app
+    command: composer install --ignore-platform-reqs
   database:
+    container_name: mysql
+    restart: always
     image: mysql:5.6
     ports:
       - 3306:3306
