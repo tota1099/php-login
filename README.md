@@ -1,6 +1,6 @@
 # Login PHP
 
-[![Build Status](https://travis-ci.com/tota1099/php-login.svg?branch=main)](https://travis-ci.com/tota1099/php-login)
+[![Build status](https://github.com/tota1099/php-login/actions/workflows/php.yml/badge.svg)](https://github.com/tota1099/php-login/actions/workflows/php.yml)
 [![Coverage Status](https://coveralls.io/repos/github/tota1099/php-login/badge.svg?branch=main)](https://coveralls.io/github/tota1099/php-login?branch=main)
 
 Esqueleto de um sistema baseado em módulos e permissões de acesso, construido com clean architecture e testes.
